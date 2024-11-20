@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula 1 2024 Season Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #E10600;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formula 1 2024 Season Statistics</h1>
+
+    <h2>Driver Standings</h2>
+    <table id="driverStandings">
+        <tr>
+            <th>Position</th>
+            <th>Driver</th>
+            <th>Team</th>
+            <th>Points</th>
+        </tr>
+        <!-- Table rows will be populated by JavaScript -->
+    </table>
+
+    <div class="chart-container">
+        <canvas id="pointsChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="podiumsChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="averageFinishChart"></canvas>
+    </div>
+
+    <script>
+        // Sample data for the 2024 F1 season (replace with actual data when available)
+        const drivers = [
+            { name: "Max Verstappen", team: "Red Bull Racing", points: 410, podiums: 18, avgFinish: 1.8 },
+            { name: "Lewis Hamilton", team: "Mercedes", points: 380, podiums: 16, avgFinish: 2.2 },
+            { name: "Charles Leclerc", team: "Ferrari", points: 350, podiums: 14, avgFinish: 2.5 },
+            { name: "Lando Norris", team: "McLaren", points: 320, podiums: 12, avgFinish: 3.1 },
+            { name: "George Russell", team: "Mercedes", points: 300, podiums: 10, avgFinish: 3.5 },
+            { name: "Carlos Sainz", team: "Ferrari", points: 280, podiums: 8, avgFinish: 3.8 },
+            { name: "Fernando Alonso", team: "Aston Martin", points: 260, podiums: 6, avgFinish: 4.2 },
+            { name: "Oscar Piastri", team: "McLaren", points: 240, podiums: 4, avgFinish: 4.6 },
+        ];
+
+        // Populate driver standings table
+        const table = document.getElementById('driverStandings');
+        drivers.forEach((driver, index) => {
+            const row = table.insertRow();
+            row.insertCell(0).textContent = index + 1;
+            row.insertCell(1).textContent = driver.name;
+            row.insertCell(2).textContent = driver.team;
+            row.insertCell(3).textContent = driver.points;
+        });
+
+        // Create points chart
+        new Chart(document.getElementById('pointsChart'), {
+            type: 'bar',
+            data: {
+                labels: drivers.map(d => d.name),
+                datasets: [{
+                    label: 'Points',
+                    data: drivers.map(d => d.points),
+                    backgroundColor: 'rgba(255, 99, 132, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Driver Points'
+                    }
+                }
+            }
+        });
+
+        // Create podiums chart
+        new Chart(document.getElementById('podiumsChart'), {
+            type: 'pie',
+            data: {
+                labels: drivers.map(d => d.name),
+                datasets: [{
+                    label: 'Podiums',
+                    data: drivers.map(d => d.podiums),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(199, 199, 199, 0.8)',
+                        'rgba(83, 102, 255, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Podium Finishes'
+                    }
+                }
+            }
+        });
+
+        // Create average finish position chart
+        new Chart(document.getElementById('averageFinishChart'), {
+            type: 'line',
+            data: {
+                labels: drivers.map(d => d.name),
+                datasets: [{
+                    label: 'Average Finish Position',
+                    data: drivers.map(d => d.avgFinish),
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Average Finish Position'
+                    }
+                },
+                scales: {
+                    y: {
+                        reverse: true,
+                        min: 1,
+                        max: 5
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
